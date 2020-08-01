@@ -19,8 +19,6 @@ import org.springframework.context.annotation.Configuration;
 public class InitBots {
 
     private static final String DEFAULT_CHANNEL = "EternalEtulf";
-    private static final String FIREBAT= "insanefirebat";
-
 
     @Bean
     public DiscordApi discordApi(@Value("${discord}") String token) {
@@ -54,7 +52,6 @@ public class InitBots {
 
         twitchClient.getChat().joinChannel(DEFAULT_CHANNEL);
 
-        this.twitchClient = twitchClient;
         return twitchClient;
     }
 

@@ -4,13 +4,14 @@ package cl.eternaletulf.bot.bots;
 import lombok.extern.slf4j.Slf4j;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.event.message.MessageCreateEvent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 public class DiscordBot {
 
-    DiscordApi discordApi;
+    static DiscordApi discordApi;
 
     public DiscordBot(DiscordApi discordApi) {
         discordApi.addMessageCreateListener(this::message);
@@ -29,6 +30,11 @@ public class DiscordBot {
             case "!stream":
                 event.getChannel().sendMessage("https://www.twitch.tv/eternaletulf");
         }
+    }
+
+    @Bean
+    public static DiscordApi getDiscordApi() {
+        return discordApi;
     }
 
 }
