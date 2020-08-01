@@ -1,26 +1,22 @@
 package cl.eternaletulf.bot.TwitchEvents;
 
-import cl.eternaletulf.bot.bots.DiscordBot;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+//@Service
 public class WriteToDiscordMessage {
 
-    private final SimpleEventHandler eventHandler;
+    SimpleEventHandler eventHandler;
 
     @Autowired
-    DiscordBot discordBot;
+    DiscordApi discordApi;
 
-    public WriteToDiscordMessage(SimpleEventHandler eventHandler, DiscordBot discordBot) {
-        this.eventHandler = eventHandler;
+    public WriteToDiscordMessage(SimpleEventHandler eventHandler) {
         eventHandler.onEvent(ChannelMessageEvent.class, this::onChannelMessage);
-        this.discordBot = discordBot;
         eventHandler.onEvent(ChannelMessageEvent.class, this::showOnDiscord);
     }
 
@@ -36,10 +32,9 @@ public class WriteToDiscordMessage {
         );
     }
 
-     public void showOnDiscord(ChannelMessageEvent event) {
-        DiscordApi api = discordBot.getApi();
-
-        TextChannel channel = api.getChannelById("738194356682489868").get().asTextChannel().get();
+    public void showOnDiscord(ChannelMessageEvent event) {
+        TextChannel channel = discordApi.getChannelById("738194356682489868").get().asTextChannel()
+            .get();
 
         new MessageBuilder()
             .append(event.getMessage())
