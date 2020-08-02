@@ -2,33 +2,32 @@ package cl.eternaletulf.bot.TwitchEvents;
 
 import cl.eternaletulf.bot.bots.DiscordBot;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
-import com.github.twitch4j.TwitchClient;
-import com.github.twitch4j.events.ChannelGoLiveEvent;
+import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageBuilder;
-import org.springframework.stereotype.Service;
 
-//TODO esta wea se va a la chucha
-@Service
+
 public class WriteToDiscordMessage {
-
-    TwitchClient twitchClient;
 
     private String channelId = "738194356682489868";
 
-    public WriteToDiscordMessage() {
-        SimpleEventHandler eventHandler = twitchClient.getEventManager()
-            .getEventHandler(SimpleEventHandler.class);
-        eventHandler.onEvent(ChannelGoLiveEvent.class, this::showOnDiscord);
+    DiscordBot discordBot;
+
+    public WriteToDiscordMessage(SimpleEventHandler eventHandler,
+        DiscordBot discordBot) {
+        this.discordBot = discordBot;
+        eventHandler.onEvent(ChannelMessageEvent.class, event -> {
+            showOnDiscord(event);
+        });
     }
 
-    public void showOnDiscord(ChannelGoLiveEvent event) {
-        TextChannel channel = DiscordBot.getDiscordApi().getChannelById(channelId).get()
+    public void showOnDiscord(ChannelMessageEvent event) {
+        TextChannel channel = discordBot.getDiscordApi().getChannelById(channelId).get()
             .asTextChannel()
             .get();
 
         new MessageBuilder()
-            .append(event.getStream().getUserName())
+            .append(event.getMessage())
             .send(channel);
     }
 }

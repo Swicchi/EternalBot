@@ -4,7 +4,6 @@ package cl.eternaletulf.bot.bots;
 import lombok.extern.slf4j.Slf4j;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.event.message.MessageCreateEvent;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,9 +31,7 @@ public class DiscordBot {
         }
     }
 
-    @Bean
-    public static DiscordApi getDiscordApi() {
+    public DiscordApi getDiscordApi() {
         return discordApi;
     }
-
 }

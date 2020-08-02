@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 public class InitBots {
 
     private static final String DEFAULT_CHANNEL = "EternalEtulf";
+    private static final String polo = "polo_wg";
 
     @Bean
     public DiscordApi discordApi(@Value("${discord}") String token) {
@@ -53,14 +54,5 @@ public class InitBots {
         twitchClient.getChat().joinChannel(DEFAULT_CHANNEL);
 
         return twitchClient;
-    }
-
-    TwitchClient twitchClient;
-
-    //TODO: look for improvements
-    @Bean
-    public SimpleEventHandler eventHandler() {
-        log.info("Twitch Event Handler is is enabled");
-        return twitchClient.getEventManager().getEventHandler(SimpleEventHandler.class);
     }
 }
