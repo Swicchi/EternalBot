@@ -14,6 +14,10 @@ public class WriteToDiscordMessage {
 
     TwitchClient twitchClient;
 
+    public WriteToDiscordMessage(TwitchClient twitchClient) {
+        this.twitchClient = twitchClient;
+    }
+
     private String channelId = "738194356682489868";
 
     public WriteToDiscordMessage() {
